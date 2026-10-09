@@ -17,6 +17,11 @@ deploy/**/.env
 *.bak_*
 _backup_*/
 
+# 🔒 ข้อมูลจริงของบริษัท — ห้ามขึ้น repo สาธารณะ (แดชบอร์ดเสิร์ฟจาก NAS เท่านั้น)
+RAW_Data/
+CRM_AssignTo_*.csv
+Plan_SalesOrder.csv
+
 # Local / generated
 venv/
 __pycache__/
