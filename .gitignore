@@ -22,6 +22,9 @@ RAW_Data/
 CRM_AssignTo_*.csv
 Plan_SalesOrder.csv
 
+# ช่องรับคำสั่งของ NAS (request/result ผ่าน Google Drive) — ไม่ต้อง commit
+_control/
+
 # Local / generated
 venv/
 __pycache__/

@@ -1,6 +1,7 @@
 #!/bin/sh
-# EPS Dashboard — NAS bootstrap v6 (รันเป็น root จาก DSM Task Scheduler)
+# EPS Dashboard — NAS bootstrap v7 (รันเป็น root จาก DSM Task Scheduler)
 #
+# v7 = v6 + ช่องรับคำสั่งผ่านโฟลเดอร์ _control (sync ผ่าน Google Drive) → ไม่ต้อง SSH อีก
 # v6 ติดตั้งเฉพาะของถาวร — ไม่มี agent ระยะไกล และไม่มีรหัส/token ฝังในไฟล์:
 #   1) /usr/local/bin/eps-serve.py  — ตัวเซิร์ฟเวอร์แดชบอร์ด (ดาวน์โหลดจาก GitHub)
 #   2) /etc/eps-auth                — รหัส Basic Auth (สร้างให้เฉพาะเมื่อยังไม่มี)
@@ -21,12 +22,13 @@ PROJ="/volume1/Work/Jom Work/JOM/AI Dashboard"
 PORT=8090
 AUTHFILE=/etc/eps-auth
 RAW=https://raw.githubusercontent.com/patipan-suksangiam/eps-dashboard/master/scripts/serve_raw_data.py
+RAW_WATCH=https://raw.githubusercontent.com/patipan-suksangiam/eps-dashboard/master/deploy/synology/eps-watch.sh
 REPORT=/tmp/eps_bootstrap_report.txt
 
 : > "$REPORT"
 say() { echo "$@" >> "$REPORT"; }
 
-say "=== EPS NAS bootstrap v6 ==="
+say "=== EPS NAS bootstrap v7 ==="
 say "date        : $(date)"
 say "who         : $(id)"
 
@@ -35,6 +37,17 @@ if curl -fsSL "$RAW" -o /usr/local/bin/eps-serve.py && python3 -m py_compile /us
     say "server code : ok ($(wc -c < /usr/local/bin/eps-serve.py) bytes)"
 else
     say "server code : FAILED — ตรวจการเชื่อมต่ออินเทอร์เน็ต/GitHub"
+fi
+
+# ---------- 1b) command watcher — รับงานผ่านโฟลเดอร์ _control ที่ sync มา ----------
+if curl -fsSL "$RAW_WATCH" -o /usr/local/bin/eps-watch.sh && sh -n /usr/local/bin/eps-watch.sh; then
+    chmod 755 /usr/local/bin/eps-watch.sh
+    mkdir -p "$PROJ/_control"
+    grep -q 'eps-watch.sh' /etc/crontab 2>/dev/null || \
+        printf '* * * * *\troot\t/usr/local/bin/eps-watch.sh >/dev/null 2>&1\n' >> /etc/crontab
+    say "watcher     : ok — รับงานจาก /_control/request.txt (daily|weekly|monthly|health|restart)"
+else
+    say "watcher     : FAILED — ตรวจการเชื่อมต่ออินเทอร์เน็ต/GitHub"
 fi
 
 # ---------- 2) credentials (สร้างครั้งเดียว ไม่ทับของเดิม) ----------
@@ -81,6 +94,6 @@ sleep 3
 say "serving     : $(netstat -lnt 2>/dev/null | grep \":$PORT \" | tr -s ' ' | head -1)"
 say "check       : curl -I http://127.0.0.1:$PORT/            -> 401 = ต้องใส่รหัส (ปกติ)"
 say "              curl -u user:pass -I http://127.0.0.1:$PORT/  -> 200"
-say "=== end v6 ==="
+say "=== end v7 ==="
 
 cat "$REPORT"

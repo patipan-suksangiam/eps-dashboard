@@ -77,6 +77,26 @@ pkill -f eps-serve.py        # cron จะปลุกใหม่ภายใ�
 
 > ระบบนี้ **ไม่มี SSH** (ปิดไว้เพื่อความปลอดภัย) — DSM Task Scheduler คือช่องทางเดียวในการรันคำสั่งบน NAS
 
+## 5b. สั่งงานผ่านไฟล์ (ช่องทางหลัก — ไม่ต้อง SSH ไม่ต้องกดอะไร)
+
+`eps-watch.sh` (cron ทุก 1 นาที) เฝ้าดู `<โฟลเดอร์งาน>/_control/request.txt` ซึ่ง sync มาจาก Google Drive:
+
+```sh
+# จากเครื่องไหนก็ได้ (เช่น Windows):
+echo monthly > "G:/My Drive/JOM/AI Dashboard/_control/request.txt"
+# รอ 1-3 นาที (sync) + 1 นาที (cron) → งานรัน → ผลอยูที่ _control/result-monthly.txt
+```
+
+| request | ทำอะไร |
+|---|---|
+| `daily` / `weekly` / `monthly` | รัน ETL โหมดนั้น (ผลใน `result-<โหมด>.txt`) |
+| `health` | รายงานสถานะ: พอร์ต 8090, cron, ไฟล์รหัส, log, ไฟล์ข้อมูลล่าสุด |
+| `restart` | ปิดเซิร์ฟเวอร์ (cron จะปลุกใหม่ใน ~1 นาที) |
+
+- รับ **เฉพาะคำในรายการนี้เท่านั้น** — คำสั่ง shell หรือคำอื่นจะถูกย้ายไป `_control/rejected/` โดยไม่รัน (ทดสอบแล้ว)
+- `_control/watch-heartbeat.txt` = เวลาที่ watcher ทำงานล่าสุด (เขียนทุก ~5 นาที) → ใช้ยืนยันว่าระบบยังอยู่
+- โฟลเดอร์ `_control/` ไม่ถูก commit (อยู่ใน `.gitignore`)
+
 ---
 
 ## 6. ตรวจสุขภาพระบบ (แก้ปัญหาเร็ว)

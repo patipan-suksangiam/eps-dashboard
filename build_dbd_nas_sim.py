@@ -10,7 +10,7 @@ Sources (all real):
 """
 import csv, json, os, glob, re, sys
 
-REGIONAL_DIR = "G:/My Drive/JOM/รายชื่ออุตสาหกรรมทั่วประเทศ (จอม)"
+REGIONAL_DIR = "Z:/no-such-drive/ไม่มีโฟลเดอร์นี้"
 # สำเนาที่ sync มากับโปรเจกต์ — ใช้เมื่อรันบนเครื่องที่ไม่มีพาธ Windows (เช่น NAS)
 REGIONAL_DIR_LOCAL = "Regional_Registers"
 
