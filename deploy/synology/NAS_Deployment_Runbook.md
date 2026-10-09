@@ -97,6 +97,14 @@ echo monthly > "G:/My Drive/JOM/AI Dashboard/_control/request.txt"
 - `_control/watch-heartbeat.txt` = เวลาที่ watcher ทำงานล่าสุด (เขียนทุก ~5 นาที) → ใช้ยืนยันว่าระบบยังอยู่
 - โฟลเดอร์ `_control/` ไม่ถูก commit (อยู่ใน `.gitignore`)
 
+**ผลทดสอบจริงบน NAS (2026-10-09):**
+| request | ผล |
+|---|---|
+| `health` | พอร์ต 8090 LISTEN · cron ครบ 5 บรรทัด (ไม่มีบรรทัด agent) · รหัส `eps` ผ่าน · Python 3.8.15 |
+| `weekly` | visits 19,889 แถว → `4_Visit_Report.csv` (108 วินาที) |
+| `monthly` | client_master 5,530 · sales_reps · macro 15,210 · BOI 24 · **dbd matched 2,885 (52.2%)** · overview — ผ่านครบทุกขั้น (288 วินาที) |
+| รอบอัตโนมัติถัดไป | daily 12:15/00:00 · weekly อาทิตย์ 00:00 · monthly วันที่ 1 00:00 |
+
 ---
 
 ## 6. ตรวจสุขภาพระบบ (แก้ปัญหาเร็ว)
