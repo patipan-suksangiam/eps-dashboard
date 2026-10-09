@@ -1,0 +1,30 @@
+# 🔒 Never publish these (credential / private strategy / source archives)
+_CORE_Private/
+**/crm_credentials.json
+**/credentials.json
+**/owner_map.json
+**/user_map.json
+users_credentials.md
+
+# Deployment secrets (Cloudflare Tunnel token etc.)
+.env
+.env.*
+!deploy/synology/.env.example
+deploy/**/.env
+
+# Backups created by clean_inventory.py and friends
+*.bak
+*.bak_*
+_backup_*/
+
+# Local / generated
+venv/
+__pycache__/
+*.pyc
+.DS_Store
+*.log
+etl_output.log
+
+# macOS
+._*
+nas_bootstrap_report.txt

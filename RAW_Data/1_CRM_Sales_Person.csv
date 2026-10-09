@@ -1,0 +1,61 @@
+emp_id,name,role_tier,territory,monthly_target_thb,phone,email,status,group_hint,is_group,so_count,so_value_total_m,so_count_2026,so_value_2026_m,quote_count
+19x23,Vipoo Srisawadi,,,,,vipoo@siamrajplc.com,Active,,no,1628,462.19,103,15.93,2100
+19x18,Nomjit Suktawee,,,,,nomjit@siamrajplc.com,Active,,no,2257,381.67,428,73.11,10
+19x54,,,,,,,,,,591,330.26,0,0.0,458
+19x43,Katewadee Pratipagorn,,,,,katewadee@siamrajplc.com,Active,,no,1566,302.05,58,23.37,1556
+19x45,Pattamaporn Chadkurupin,,,,,pattamaporn@siamrajplc.com,Active,,no,1738,264.92,84,9.94,2262
+19x27,Nattawut Junkong,,,,,nattawut@siamrajplc.com,Active,,no,2060,249.32,114,26.27,2329
+19x51,Benjamas Tanjit,,,,,benjamas@siamrajplc.com,Active,,no,1829,228.51,75,9.55,1813
+20x8,Group PD,,,,,,,,yes,156,152.86,0,0.0,143
+20x6,Group C,,,,,,,,yes,988,144.87,0,0.0,2635
+19x34,Kanittha Cheryhom,,,,,kanittha_c@siamrajplc.com,Active,,no,704,131.67,45,6.65,1559
+20x2,Group A,,,,,,,,yes,1153,123.48,0,0.0,4321
+19x44,Nuttapong Laplumwanich,,,,,nuttapong_l@siamrajplc.com,Active,,no,383,102.67,0,0.0,906
+19x17,Nussara Boonprasert,,,,,nussara@siamrajplc.com,Active,,no,83,93.23,0,0.0,0
+19x21,Chuanhathai Eakwongsupasarn,,,,,chuanhathai@siamrajplc.com,Active,,no,683,92.65,0,0.0,1753
+19x24,,,,,,,,,,485,81.24,0,0.0,206
+20x5,Group B,,,,,,,,yes,152,80.8,0,0.0,1991
+19x19,Saovaluck Jangjai,,,,,saovaluck@siamrajplc.com,Active,,no,1184,78.01,105,6.85,1593
+20x9,Group R,,,,,,,,yes,152,62.96,0,0.0,2227
+19x36,,,,,,,,,,334,57.46,0,0.0,592
+19x32,Satika Saengsumrit,,,,,satika@siamrajplc.com,Active,,no,535,57.42,0,0.0,4
+19x26,,,,,,,,,,1067,52.5,0,0.0,381
+19x31,Panisa Wongrung,,,,,panisa@siamrajplc.com,Active,,no,292,48.87,0,0.0,863
+19x22,,,,,,,,,,164,35.53,0,0.0,402
+19x52,,,,,,,,,,57,29.97,0,0.0,72
+19x56,,,,,,,,,,412,20.51,0,0.0,1
+19x28,,,,,,,,,,253,18.19,0,0.0,317
+19x35,,,,,,,,,,44,5.1,0,0.0,157
+19x47,Patipan Suksangiam,,,,,patipan@siamrajplc.com,Active,,no,2,3.37,0,0.0,51
+19x49,,,,,,,,,,7,1.54,0,0.0,10
+19x48,Udomlak Panya-Apiban,,,,,udomlak@siamrajplc.com,Active,,no,16,1.04,13,0.49,36
+19x90,Patthamanan Pudgajang,,,,,patthamanan@siamrajplc.com,Active,,no,1,0.04,1,0.04,344
+19x1,Administrator,,,,,sysadmin@siamrajplc.com,Active,,no,0,0.0,0,0.0,734
+19x78,Sarawut Viseshasiri,,,,,sarawut_v@siamrajplc.com,Active,,no,0,0.0,0,0.0,317
+20x7,Group D,,,,,,,,yes,0,0.0,0,0.0,3996
+19x74,Sujittra Tungprakobjaroen,Executive Sales Representative,,,,sujittra@siamrajplc.com,Active,,no,0,0.0,0,0.0,835
+19x77,Thitima Plaibua,,,,,thitima@siamrajplc.com,Active,,no,0,0.0,0,0.0,780
+19x88,Thanaaran Sirawattanamongkol,,,,,thanaaran@siamrajplc.com,Active,,no,0,0.0,0,0.0,486
+19x61,Peeraya Peeploy,,,,,peeraya@siamrajplc.com,Active,,no,0,0.0,0,0.0,21
+19x92,Napadol Peoksangthip,,,,,napadol@siamrajplc.com,Active,,no,0,0.0,0,0.0,294
+19x29,Samantha Tanittha Nilsandhi,,,,,samantha_t@siamrajplc.com,Active,,no,0,0.0,0,0.0,188
+19x85,Katewadee Pratipagorn (B),Senior Sales Engineer,,,,katewadee@siamrajplc.com,Active,,no,0,0.0,0,0.0,11
+19x55,,,,,,,,,,0,0.0,0,0.0,21
+19x30,,,,,,,,,,0,0.0,0,0.0,7
+19x53,,,,,,,,,,0,0.0,0,0.0,33
+19x38,,,,,,,,,,0,0.0,0,0.0,3
+19x13,Uthen Phutneam,,,,,uthen@siamrajplc.com,Active,,no,0,0.0,0,0.0,6
+19x33,,,,,,,,,,0,0.0,0,0.0,21
+19x65,,,,,,,,,,0,0.0,0,0.0,519
+19x62,Nattawut Hirunlalit,,,,,nattawut_h@siamrajplc.com,Active,,no,0,0.0,0,0.0,5
+19x37,Piyanuch Janthanarak,,,,,piyanuch@siamrajplc.com,Active,,no,0,0.0,0,0.0,7
+19x66,Preeyathip Janthanarak,,,,,preeyathip@siamrajplc.com,Active,,no,0,0.0,0,0.0,1
+19x68,,,,,,,,,,0,0.0,0,0.0,4
+19x70,Kornthanat Suksalee,,,,,kornthanat@siamrajplc.com,Active,,no,0,0.0,0,0.0,1040
+19x64,,,,,,,,,,0,0.0,0,0.0,207
+19x83,,,,,,,,,,0,0.0,0,0.0,15
+19x89,Tanaporn Chanchanaroj,,,,,tanaporn@siamrajplc.com,Active,,no,0,0.0,0,0.0,327
+19x93,Phanuwat Murot,,,,,phanuwat@siamrajplc.com,Active,,no,0,0.0,0,0.0,68
+19x80,Jidapa Sriwattanakulkij,,,,,jidapa@siamrajplc.com,Active,,no,0,0.0,0,0.0,2
+19x96,Itsaripharat Kamthong,Sales Representative,EPS,,,itsaripharat@siamrajplc.com,Active,,no,0,0.0,0,0.0,84
+19x94,Sunisaa Mariram,,,,,sunisa_m@siamrajplc.com,Active,,no,0,0.0,0,0.0,1

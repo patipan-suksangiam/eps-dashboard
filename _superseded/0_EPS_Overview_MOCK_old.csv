@@ -1,0 +1,9 @@
+metric,value,target,unit,trend,trend_value
+Total_Revenue_YTD,136.9,266.0,M,down,-10.0
+Gross_Margin,25.4,24.0,%,up,2.1
+Quotes_Value,15540,-,M,neutral,0
+Sales_Orders_Value,3664,-,M,neutral,0
+Win_Rate_2025,15.8,25.0,%,up,8.4
+Active_Customers,2177,5491,Accounts,neutral,0
+Lapsed_Customers,1422,-,Accounts,down,1357.0
+Service_Tickets,5186,-,Tickets,up,99.6

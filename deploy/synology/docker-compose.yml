@@ -1,0 +1,41 @@
+# 🐳 EPS Dashboard — Synology (Container Manager) deployment
+#
+# ใช้งาน: Container Manager → Project → Create → วางไฟล์นี้ + .env ในโฟลเดอร์โปรเจกต์
+# (ดูขั้นตอนละเอียดใน deploy/synology/README.md)
+#
+# สองบริการ:
+#   eps-data     = เสิร์ฟ RAW_Data/*.csv พร้อม header CORS (จาก scripts/serve_raw_data.py)
+#   eps-tunnel   = เชื่อมต่อออกไป Cloudflare ไม่ต้องเปิด port ที่ router
+
+services:
+  eps-data:
+    image: python:3.12-slim
+    container_name: eps-data
+    restart: unless-stopped
+    # bind 0.0.0.0 *ภายใน* container แต่ publish แค่ 127.0.0.1 ของ NAS
+    # → เครื่องอื่นในวง LAN เข้าตรงไม่ได้ มีแค่ cloudflared ที่คุยได้
+    command: >
+      python /app/serve_raw_data.py
+      --bind 0.0.0.0
+      --port 8091
+      --dir /data
+      --allow-origin ${ALLOW_ORIGIN}
+    volumes:
+      - "${RAW_DIR}:/data:ro"
+      - "${SCRIPTS_DIR}:/app:ro"
+    ports:
+      - "127.0.0.1:8091:8091"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request;urllib.request.urlopen('http://127.0.0.1:8091/0_EPS_Overview_2026.csv', timeout=5)"]
+      interval: 60s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+  eps-tunnel:
+    image: cloudflare/cloudflared:latest
+    container_name: eps-tunnel
+    restart: unless-stopped
+    command: tunnel --no-autoupdate run --token ${TUNNEL_TOKEN}
+    depends_on:
+      - eps-data

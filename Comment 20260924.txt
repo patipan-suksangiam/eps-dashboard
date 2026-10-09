@@ -1,0 +1,33 @@
+﻿Comment 20260924
+    • หน้า Group Overview// Active Account ให้นับ 1 ปีย้อนหลังแทน เพื่อเวลาขึ้นปีใหม่ตัวเลขจะได้ไม่ผิดปกติ
+    • หน้า Group Overview// ให้มีเทียบกับจำนวนโรงงานในอุตสาหกรรมที่ Group นั้นรับผิดชอบว่าได้กี่โรง จากกี่โรง โดยนับโรงงานที่มีทุนจดทะเบียนมากกว่า 100 ล้านเป็นฐาน แต่ถ้าพวกเขาขายให้กับบริษัทที่ไม่อยู่ในลิสต์นั้นก็ไม่มีปัญหาอะไร
+    • หน้า Group Overview// ให้มี่หน้าลับเวลาคลิ๊กเข้าไปที่ Active Account กับลิสต์โรงงานใน DBD โดยอันที่เป็น Active Account จะเป็นสีเขียว ส่วน Non-Active จะเป็นสีแดง 
+    • หน้า Group Overview// Sales Order ให้สร้างหน้าลับที่สามาถเข้าไปดู Sales Order และระยะเวลาส่งของได้ 
+    • หน้า Group Overview// Top Account สามารถ Sort แต่ละคอลัมน์ได้
+    • Sales แต่ละ Group
+        ◦ Group A
+            ▪ Nattawut Junkong
+            ▪ Thanaaran Sirawattanamongkol
+            ▪ Saovaluck Jangjai
+        ◦ Group  B
+            ▪ Tanaporn Chanchanaroj
+            ▪ Napadol Peoksangthip
+            ▪ Thitima Plaibua
+        ◦ Group C
+            ▪ Sujittra Tungprakobjaroen
+            ▪ Kanittha Cheryhom
+            ▪ Itsaripharat Kamthong
+        ◦ Group D
+            ▪ Vipoo Srisawadi
+            ▪ Pattamaporn Chadkurupin
+            ▪ Katewadee Pratipagorn
+        ◦ Group R
+            ▪ Patthamanan Pudgajang
+            ▪ Benjamas Tanjit
+            ▪ Sarawut Viseshasiri
+    • หน้า Group Overview// จะมีหน้าลับเวลาคลิ๊กเข้าไปที่ชื่อแต่ละคนก็จะมี Performance ส่วนตัว แสดงด้วย
+    • หน้า Group Overview// แสดง % Win Rate ด้วย ทั้งภาพรวมของกลุ่ม และหน้าลับรายบุคคล
+    • หน้า Group Overview// แสดง Quote ทั้งรายกลุ่ม และรายคน รวมถึงระยะเวลาจาก Quote จนมาถึงปัจจุบัน 
+    • หน้า Group Overview// ToDo List สิ่งที่ต้องทำโดยประมวลผลจากข้อมูลทั้งหมดโดยแสดง Group ใคร Group มัน 
+    • บริษัท แซส เทค โซลูชั่น จำกัด เป็นของ Group D
+

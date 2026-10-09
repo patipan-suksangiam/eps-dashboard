@@ -1,0 +1,16 @@
+group,emp_id,name,email,quotes_won,quotes_lost,quotes_open,win_rate_count_pct,win_rate_value_pct,oldest_open_quote_days,so_value_2024_m,so_value_2025_m,so_value_2026_m,so_value_3yr_total_m,visits_12m
+D,19x23,Vipoo Srisawadi,vipoo@siamrajplc.com,983,760,357,46.8,23.0,732,0.00,0.00,15.93,15.93,1187
+D,19x43,Katewadee Pratipagorn,katewadee@siamrajplc.com,674,686,196,43.3,34.9,611,0.00,0.00,23.37,23.37,962
+D,19x45,Pattamaporn Chadkurupin,pattamaporn@siamrajplc.com,858,1041,363,37.9,19.8,732,0.00,0.00,9.94,9.94,1082
+A,19x27,Nattawut Junkong,nattawut@siamrajplc.com,1229,786,316,52.7,40.2,730,0.00,0.00,26.27,26.27,1282
+R,19x51,Benjamas Tanjit,benjamas@siamrajplc.com,1016,586,211,56.0,26.6,729,0.00,0.00,9.55,9.55,1678
+C,19x34,Kanittha Cheryhom,kanittha_c@siamrajplc.com,484,746,332,31.0,13.6,729,0.00,0.00,6.65,6.65,1222
+A,19x19,Saovaluck Jangjai,saovaluck@siamrajplc.com,875,474,244,54.9,34.6,732,0.00,0.00,6.85,6.85,1042
+R,19x90,Patthamanan Pudgajang,patthamanan@siamrajplc.com,184,13,147,53.5,33.5,731,0.00,0.00,0.04,0.04,1442
+R,19x78,Sarawut Viseshasiri,sarawut_v@siamrajplc.com,124,87,107,39.0,2.0,653,0.00,0.00,0.00,0.00,1076
+C,19x74,Sujittra Tungprakobjaroen,sujittra@siamrajplc.com,260,266,310,31.1,12.1,710,0.00,0.00,0.00,0.00,1105
+B,19x77,Thitima Plaibua,thitima@siamrajplc.com,238,217,325,30.5,20.4,732,0.00,0.00,0.00,0.00,1089
+A,19x88,Thanaaran Sirawattanamongkol,thanaaran@siamrajplc.com,203,3,280,41.8,17.2,723,0.00,0.00,0.00,0.00,1107
+B,19x92,Napadol Peoksangthip,napadol@siamrajplc.com,89,3,203,30.2,13.1,676,0.00,0.00,0.00,0.00,1127
+B,19x89,Tanaporn Chanchanaroj,tanaporn@siamrajplc.com,68,10,249,20.8,14.4,732,0.00,0.00,0.00,0.00,1064
+C,19x96,Itsaripharat Kamthong,itsaripharat@siamrajplc.com,8,0,76,9.5,4.1,721,0.00,0.00,0.00,0.00,184

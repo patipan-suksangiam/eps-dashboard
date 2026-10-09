@@ -1,0 +1,165 @@
+<mxfile host="Electron" modified="2026-09-22T03:15:00.000Z" agent="Mozilla/5.0" version="22.1.2" type="device">
+  <diagram id="dashboard-architecture" name="Architecture Flow">
+    <mxGraphModel dx="1434" dy="836" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        
+        <!-- Legend / Title -->
+        <mxCell id="title" value="EPS Dashboard: System Architecture &amp; Data Flow (GitHub Pages)" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=24;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="40" y="20" width="700" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- Phase 1: Local Automation (ETL) -->
+        <mxCell id="group_etl" value="1. Local Data Processing (Synology / Mini PC)" style="swimlane;whiteSpace=wrap;html=1;fillColor=#f5f5f5;fontColor=#333333;strokeColor=#666666;fontStyle=1;startSize=30;" vertex="1" parent="1">
+          <mxGeometry x="40" y="80" width="280" height="420" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="crm_db" value="Internal Systems&#xa;(CRM / ERP)" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="group_etl">
+          <mxGeometry x="30" y="50" width="90" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="external_api" value="External Sources&#xa;(BOT, OIE, Sheets)" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="group_etl">
+          <mxGeometry x="150" y="45" width="110" height="80" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="python_etl" value="Python ETL Script&#xa;(etl_script.py)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontStyle=1" vertex="1" parent="group_etl">
+          <mxGeometry x="60" y="180" width="160" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="csv_files" value="RAW_Data (CSV/JSON)&#xa;Updated Daily/Weekly" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="group_etl">
+          <mxGeometry x="65" y="300" width="150" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- Arrows inside ETL -->
+        <mxCell id="edge1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.25;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="group_etl" source="crm_db" target="python_etl">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.75;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="group_etl" source="external_api" target="python_etl">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="group_etl" source="python_etl" target="csv_files">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+
+        <!-- Phase 2: Git Synchronization -->
+        <mxCell id="group_git" value="2. CI/CD &amp; Hosting" style="swimlane;whiteSpace=wrap;html=1;fillColor=#f5f5f5;fontColor=#333333;strokeColor=#666666;fontStyle=1;startSize=30;" vertex="1" parent="1">
+          <mxGeometry x="380" y="80" width="220" height="420" as="geometry" />
+        </mxCell>
+
+        <mxCell id="git_push" value="Automated Git Push&#xa;(Via Script / Cron)" style="shape=flexArrow;endArrow=classic;html=1;rounded=0;fillColor=#f8cecc;strokeColor=#b85450;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="320" y="420" as="sourcePoint" />
+            <mxPoint x="380" y="420" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="github_repo" value="GitHub Repository&#xa;(Private / Public)" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="group_git">
+          <mxGeometry x="50" y="60" width="120" height="80" as="geometry" />
+        </mxCell>
+
+        <mxCell id="github_pages" value="GitHub Pages&#xa;(Static Web Hosting)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="group_git">
+          <mxGeometry x="50" y="200" width="120" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="firebase_auth" value="Authentication&#xa;(Firebase Auth / API)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;dashed=1;" vertex="1" parent="group_git">
+          <mxGeometry x="50" y="310" width="120" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Arrows inside Git -->
+        <mxCell id="edge4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="group_git" source="github_repo" target="github_pages">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;dashed=1;" edge="1" parent="group_git" source="firebase_auth" target="github_pages">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Phase 3: Client Application (SPA) -->
+        <mxCell id="group_app" value="3. Single Page Application (SPA)" style="swimlane;whiteSpace=wrap;html=1;fillColor=#f5f5f5;fontColor=#333333;strokeColor=#666666;fontStyle=1;startSize=30;" vertex="1" parent="1">
+          <mxGeometry x="660" y="80" width="460" height="420" as="geometry" />
+        </mxCell>
+
+        <mxCell id="git_serve" value="Serves Site" style="shape=flexArrow;endArrow=classic;html=1;rounded=0;fillColor=#d5e8d4;strokeColor=#82b366;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="600" y="290" as="sourcePoint" />
+            <mxPoint x="660" y="290" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="app_login" value="Login Screen&#xa;(index.html)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="group_app">
+          <mxGeometry x="30" y="50" width="120" height="50" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="app_router" value="Role-Based Router&#xa;(Check Permissions)" style="rhombus;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="group_app">
+          <mxGeometry x="190" y="35" width="140" height="80" as="geometry" />
+        </mxCell>
+
+        <mxCell id="view_sales" value="Sales Rep View" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="group_app">
+          <mxGeometry x="320" y="160" width="110" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="view_head" value="Group Head View" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="group_app">
+          <mxGeometry x="320" y="210" width="110" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="view_pm" value="PM View" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="group_app">
+          <mxGeometry x="320" y="260" width="110" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="view_bu" value="BU Manager View" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="group_app">
+          <mxGeometry x="320" y="310" width="110" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="view_ceo" value="CEO View" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="group_app">
+          <mxGeometry x="320" y="360" width="110" height="40" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="data_fetch" value="Fetch Data (CSV/JSON)&#xa;via AJAX / fetch()" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="group_app">
+          <mxGeometry x="100" y="230" width="150" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- Arrows inside App -->
+        <mxCell id="edge6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="group_app" source="app_login" target="app_router">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="edge7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="group_app" source="app_router" target="view_sales">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="260" y="180" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="edge8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="group_app" source="app_router" target="view_head">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="260" y="230" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="edge9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="group_app" source="app_router" target="view_pm">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="260" y="280" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="edge10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="group_app" source="app_router" target="view_bu">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="260" y="330" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="edge11" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="group_app" source="app_router" target="view_ceo">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="260" y="380" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="edge12" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="group_app" source="data_fetch" target="view_pm">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

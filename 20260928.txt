@@ -1,0 +1,3 @@
+﻿            ▪ Cumulative Revenue vs Target ในหน้าแรก เอาเป็นปีต่อปี ไม่ต้องย้อนหลัง 3 ปี
+            ▪ Win rate ให้แบ่งเป็นจำนวน Quotation และมูลค่า Quotation
+            ▪ Factory Register Match ให้แบ่งเป็นรายประเภทอุตสาหกรรม

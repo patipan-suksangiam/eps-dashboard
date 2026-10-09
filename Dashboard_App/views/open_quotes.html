@@ -1,0 +1,28 @@
+<div class="role-intro" style="background: white; border: 1px solid var(--border); border-radius: var(--radius); padding: 20px 24px; margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center; box-shadow: var(--shadow-sm);">
+    <div class="role-intro-left">
+        <h2 style="font-size: 20px; font-weight: 800;">🧾 Open Quotations Pipeline</h2>
+        <p style="font-size: 14px; color: var(--text-muted); margin-top: 4px;">Pending quotations and active deal pipeline restricted by sales group</p>
+    </div>
+    <div id="oq-user-badge" style="font-family: monospace; font-size: 12px; background: #EEF2FF; color: #4F46E5; border: 1px solid #C7D2FE; padding: 6px 14px; border-radius: 8px; font-weight: 600;">Role Restricted</div>
+</div>
+<div id="oq-kpi-container" class="kpi-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; margin-bottom: 24px;"></div>
+<div class="panel" style="background: white; padding: 22px; border-radius: 12px; border: 1px solid var(--border); box-shadow: var(--shadow-sm);">
+    <div class="panel-header" style="display: flex; justify-content: space-between; margin-bottom: 16px; border-bottom: 1px solid var(--border-subtle); padding-bottom: 12px; align-items: center; flex-wrap: wrap; gap: 12px;">
+        <h3 style="font-size: 16px; font-weight: 700;" id="oq-table-title">Pending Quotations List</h3>
+        <div style="display: flex; gap: 10px; align-items: center;">
+            <select id="oq-group-select" style="padding: 6px 12px; border: 1.5px solid var(--border); border-radius: 6px; font-size: 13px; font-weight: 600; outline: none; background: white;">
+                <option value="all">All Groups</option>
+                <option value="A">Group A</option>
+                <option value="B">Group B</option>
+                <option value="C">Group C</option>
+                <option value="D">Group D</option>
+                <option value="R">Group R</option>
+            </select>
+            <input type="text" id="oq-search" placeholder="Search company or quote..." style="padding: 6px 12px; border: 1.5px solid var(--border); border-radius: 6px; font-size: 13px; outline: none;">
+        </div>
+    </div>
+    <div class="data-table-wrapper" style="max-height: 480px; overflow-y: auto;" id="oq-table-container">
+        <div style="text-align: center; color: var(--text-muted); padding: 20px;">Loading open quotes...</div>
+    </div>
+</div>
+<script src="js/open_quotes.js?v=20261009a"></script>
