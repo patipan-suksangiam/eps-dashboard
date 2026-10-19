@@ -1,7 +1,7 @@
 // ⚙️ EPS Dashboard - Main Application Controller
 
 // Single version stamp — bump this to invalidate every cached asset (scripts + view HTML)
-const APP_VERSION = '20261009b';
+const APP_VERSION = '20261009c';
 
 // Base path of the app (works from /Dashboard_App/ or a custom sub-path)
 const APP_BASE = (function () {

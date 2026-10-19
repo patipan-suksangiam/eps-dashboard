@@ -52,6 +52,12 @@ def main():
     dbd_prov = bgd.load_dbd_province()
     clients = {r["client_id"]: r for r in rows("9_Client_Master.csv")}
     cgroup = {cid: bgd.client_group(c, by_ind, east, exc, dbd_prov, cid, overrides) for cid, c in clients.items()}
+    # กฎ 3 ชั้น: ผู้ปิดการขาย (sales_id) → เจ้าของบัญชี (owner_id) → อุตสาหกรรมของลูกค้า
+    rep_g = bgd.load_rep_group_map()
+    owner_of = {cid: (c.get("owner_id") or "").strip() for cid, c in clients.items()}
+
+    def gfor(row):
+        return bgd.so_group(row, cgroup, owner_of, rep_g)
 
     owner_name_map = {}
     for r in rows("1_CRM_Sales_Person.csv"):
@@ -59,9 +65,11 @@ def main():
 
     so_by_client = defaultdict(lambda: [0, 0.0, None])
     so_rows = []
+    cg_sum = defaultdict(float)
     for r in rows("3_SO_Data.csv"):
         bd = d10(r.get("booking_date")); cid = (r.get("client_id") or "").strip()
-        g = cgroup.get(cid, "U"); val = num(r.get("value_thb")); dd = d10(r.get("delivery_date"))
+        g = gfor(r); val = num(r.get("value_thb")); dd = d10(r.get("delivery_date"))
+        cg_sum[(cid, g)] += val
         lead = (dd - bd).days if (bd and dd) else ""
         so_rows.append([g, r.get("so_id", ""), cid, clients.get(cid, {}).get("company_name", r.get("client_name", "")), "%.2f" % val,
                         bd.isoformat() if bd else "", dd.isoformat() if dd else "", lead, r.get("status", "")])
@@ -69,6 +77,12 @@ def main():
             e = so_by_client[cid]; e[0] += 1; e[1] += val
             if e[2] is None or bd > e[2]:
                 e[2] = bd
+
+    # กลุ่มของลูกค้า = กลุ่มที่มียอด SO มากที่สุด (ให้รายชื่อลูกค้าตรงกับยอดของกลุ่ม)
+    client_dom = {}
+    for (cid2, g2), v2 in cg_sum.items():
+        if cid2 not in client_dom or v2 > client_dom[cid2][0]:
+            client_dom[cid2] = (v2, g2)
 
     vis_by_client, vis_by_rep = defaultdict(int), defaultdict(int)
     for r in rows("4_Visit_Report.csv"):
@@ -85,7 +99,7 @@ def main():
     for r in rows("2_Quote_Data.csv"):
         st = (r.get("status") or r.get("stage") or "").strip().lower()
         cid = (r.get("client_id") or "").strip(); sid = (r.get("sales_id") or "").strip()
-        g = cgroup.get(cid, "U"); val = num(r.get("value_thb")); cd = d10(r.get("created_date"))
+        g = gfor(r); val = num(r.get("value_thb")); cd = d10(r.get("created_date"))
         age = (TODAY - cd).days if cd else 0
         for d in (q_by_group[g], q_by_rep[sid] if sid else None):
             if d is None:
@@ -112,7 +126,7 @@ def main():
         dbd_info[cid] = r
         if cap > 100:
             dbd_all += 1
-            g = cgroup.get(cid, "U")
+            g = gfor(r)
             if g != "U":
                 dbd_by_group[g] += 1
 
@@ -159,7 +173,7 @@ def main():
             continue
         dbd = dbd_info.get(cid, {})
         oid = (c.get("owner_id") or "").strip()
-        client_rows.append([cgroup.get(cid, "U"), cid, c.get("company_name", ""),
+        client_rows.append([client_dom.get(cid, (0, cgroup.get(cid, "U")))[1], cid, c.get("company_name", ""),
                             dbd_prov.get(cid) or bgd.province_of(c.get("address", "")),
                             c.get("industry_group", ""), "Y" if active else "N",
                             last.isoformat() if last else "",

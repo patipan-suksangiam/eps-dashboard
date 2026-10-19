@@ -63,29 +63,36 @@ def main():
         p = dbd_prov.get(cid, "")
         return p if p else (client.get("address") or "")
 
+    # กลุ่มจากอุตสาหกรรม/จังหวัด (ชั้นสุดท้ายของกฎ)
+    cgroup = {}
+    for cid, c in clients.items():
+        f = forced_group(c.get("company_name", ""))
+        if f:
+            cgroup[cid] = f
+        elif any(p in province_text(cid, c) for p in east) and not any(e in c.get("company_name", "") for e in exc):
+            cgroup[cid] = "R"
+        else:
+            stars = by_ind.get((c.get("industry_group") or "").strip())
+            cgroup[cid] = stars[0] if stars else "U"
+
+    # กฎ 3 ชั้น: ผู้ปิดการขาย (sales_id) → เจ้าของบัญชี (owner_id) → อุตสาหกรรม
+    from build_group_detail import load_rep_group_map, so_group  # noqa: PLC0415
+    rep_g = load_rep_group_map()
+    owner_of = {cid: (c.get("owner_id") or "").strip() for cid, c in clients.items()}
+
     grp = defaultdict(float)
     unmapped = defaultdict(float)
     for r in so:
         v = float(r.get("value_thb") or 0)
         cid = r.get("client_id", "")
-        c = clients.get(cid)
-        if not c:
+        if cid not in clients:
             unmapped["no_client"] += v
             continue
-        ptext = province_text(cid, c)
-        forced = forced_group(c.get("company_name", ""))
-        if forced:
-            grp[forced] += v
+        g = so_group(r, cgroup, owner_of, rep_g)
+        if g == "U":
+            unmapped["no_group"] += v
             continue
-        is_east = any(p in ptext for p in east) and not any(e in c.get("company_name", "") for e in exc)
-        if is_east:
-            grp["R"] += v
-            continue
-        stars = by_ind.get((c.get("industry_group") or "").strip())
-        if not stars:
-            unmapped["no_industry"] += v
-            continue
-        grp[stars[0]] += v
+        grp[g] += v
 
     total = sum(float(r.get("value_thb") or 0) for r in so)
     mapped = sum(grp.values())

@@ -70,6 +70,38 @@ def load_dbd_province():
     return out
 
 
+def load_rep_group_map():
+    """emp_id -> group  (จาก _CORE_Private/group_reps.json ที่ JOM ยืนยัน 24 ก.ย. 2569 + user_map.json)"""
+    out = {}
+    try:
+        greps = json.load(open(os.path.join(CORE, "group_reps.json"), encoding="utf-8")).get("reps_by_group", {})
+        users = json.load(open(os.path.join(CORE, "user_map.json"), encoding="utf-8")).get("users", {})
+    except Exception:
+        return out
+    name2g = {n.strip().lower(): g for g, names in greps.items() for n in names}
+    for uid, u in users.items():
+        g = name2g.get((u.get("name") or "").strip().lower())
+        if g:
+            out[uid] = g
+    return out
+
+
+def so_group(so_row, cgroup, owner_of, rep_group):
+    """กลุ่มของออเดอร์ — กฎ 3 ชั้น: ผู้ปิดการขาย (sales_id) → เจ้าของบัญชี (owner_id) → อุตสาหกรรมของลูกค้า
+
+    เหตุผล: service/SV ขายข้ามกลุ่มได้ ต้องยึด "คนที่ปิดงาน" ก่อน · ออเดอร์ที่แอดมินคีย์แทน
+    (เช่น Nomjit 442 ใบ) จึงตกไปใช้เจ้าของบัญชีแทน · สุดท้ายจึงดูอุตสาหกรรมเป็นทางสุดท้าย
+    """
+    sid = (so_row.get("sales_id") or "").strip()
+    if sid and rep_group.get(sid):
+        return rep_group[sid]
+    cid = (so_row.get("client_id") or "").strip()
+    oid = owner_of.get(cid, "")
+    if oid and rep_group.get(oid):
+        return rep_group[oid]
+    return cgroup.get(cid, "U")
+
+
 def province_of(addr):
     for p in ["ระยอง", "ชลบุรี", "ฉะเชิงเทรา", "สมุทรปราการ", "กรุงเทพ", "ปทุมธานี",
               "นครราชสีมา", "ขอนแก่น", "สงขลา", "ภูเก็ต", "เชียงใหม่", "สระบุรี",
@@ -91,22 +123,31 @@ def main():
     # 3_SO_Data.csv ไม่มี sales_id (ว่าง) -> ใช้เจ้าของลูกค้า (owner_id) เป็นตัว attribute แทน
     owner_of = {cid: (c.get("owner_id") or "").strip() for cid, c in clients.items()}
 
-    # ---- aggregate Sales Orders (2026) ----
+    # ---- aggregate Sales Orders (2026) — กลุ่มตาม "ผู้ปิดการขาย" (กฎ 3 ชั้น) ----
+    rep_group = load_rep_group_map()
     so_by_client = defaultdict(lambda: [0, 0.0])
     so_by_rep_group = defaultdict(lambda: [0, 0.0])
+    so_by_client_group = defaultdict(float)
     with open(os.path.join(RAW, "3_SO_Data.csv"), encoding="utf-8") as f:
         for r in csv.DictReader(f):
             if not (r.get("booking_date", "") or "").startswith(YEAR):
                 continue
             cid = r.get("client_id", "")
             val = float(r.get("value_thb") or 0)
-            g = cgroup.get(cid, "U")
+            g = so_group(r, cgroup, owner_of, rep_group)
             so_by_client[cid][0] += 1
             so_by_client[cid][1] += val
+            so_by_client_group[(cid, g)] += val
             sid = (r.get("sales_id") or "").strip() or owner_of.get(cid, "")
             if sid:
                 so_by_rep_group[(sid, g)][0] += 1
                 so_by_rep_group[(sid, g)][1] += val
+
+    # กลุ่มของ "ลูกค้า" = กลุ่มที่มียอด SO มากที่สุด (เพื่อให้รายชื่อลูกค้าตรงกับยอดของกลุ่ม)
+    client_dom = {}
+    for (cid, g), v in so_by_client_group.items():
+        if cid not in client_dom or v > client_dom[cid][0]:
+            client_dom[cid] = (v, g)
 
     # ---- aggregate visits (2026) ----
     vis_by_client = defaultdict(int)
@@ -160,7 +201,7 @@ def main():
             vis = vis_by_client.get(cid, 0)
             if not so and not vis:
                 continue  # keep the file small — only active accounts
-            w.writerow([cgroup.get(cid, "U"), cid, c.get("company_name", ""), dbd_prov.get(cid) or province_of(c.get("address", "")),
+            w.writerow([client_dom.get(cid, (0, cgroup.get(cid, "U")))[1], cid, c.get("company_name", ""), dbd_prov.get(cid) or province_of(c.get("address", "")),
                         c.get("industry_group", ""), so[0] if so else 0,
                         "%.2f" % ((so[1] / 1e6) if so else 0), vis])
 

@@ -132,6 +132,16 @@ function renderAIActionPlan(data) {
             + '<td style="padding:12px 14px;border-bottom:1px solid var(--border-subtle);">Concentrate senior capacity on live tenders and plant revamps; review stalled bids weekly.</td>'
             + '<td style="padding:12px 14px;border-bottom:1px solid var(--border-subtle);">' + g.value.toFixed(2) + 'M booked' + (g.target ? ' / ' + g.target.toFixed(2) + 'M plan — ' + line : '') + '</td></tr>';
     });
+    // แถว "ยังไม่จัดกลุ่ม" — ทำให้ผลรวมในตารางเท่ากับ Revenue YTD ด้านบนเสมอ
+    const shownSum = groups.reduce((s, g) => s + (g.value || 0), 0);
+    const unassigned = actual - shownSum;
+    if (unassigned > 0.01) {
+        html += '<tr style="background:#FFFBEB;">'
+            + '<td style="padding:12px 14px;border-bottom:1px solid var(--border-subtle);font-weight:700;">ยังไม่จัดกลุ่ม (U)</td>'
+            + '<td style="padding:12px 14px;border-bottom:1px solid var(--border-subtle);">ออเดอร์ที่ยังระบุกลุ่มไม่ได้ (ไม่พบผู้ปิดการขาย/เจ้าของบัญชีในกลุ่ม และรหัสอุตสาหกรรมไม่ถูกแมป) — แจ้งผู้ดูแลระบบเพื่อเติมข้อมูล</td>'
+            + '<td style="padding:12px 14px;border-bottom:1px solid var(--border-subtle);font-weight:700;">' + unassigned.toFixed(2) + 'M booked (' + Math.round(unassigned / actual * 100) + '% ของยอดรวม)</td></tr>';
+    }
+
     html += '</tbody></table>';
 
     container.innerHTML = html;
