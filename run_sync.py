@@ -60,6 +60,10 @@ def daily():
     run([PY, os.path.join(SCRIPTS, "build_group_analytics.py")], "group_analytics")
 
 
+    # 6) Open quotations pipeline (หน้า Open Quotations Pipeline)
+    run([PY, os.path.join(SCRIPTS, "build_open_quotes.py")], "open_quotes")
+
+
 def weekly():
     run([PY, os.path.join(SCRIPTS, "pull_crm_data.py"), "visits", "--year", "2026"], "visits")
 

@@ -23,6 +23,8 @@ def main():
     dbd_prov = bgd.load_dbd_province()
     clients = {r['client_id']: r for r in rows('9_Client_Master.csv')}
     cgroup = {cid: bgd.client_group(c, by_ind, east, exc, dbd_prov, cid, overrides) for cid, c in clients.items()}
+    rep_g = bgd.load_rep_group_map()
+    owner_of = {cid: (c.get('owner_id') or '').strip() for cid, c in clients.items()}
     
     rep_map = {}
     for r in rows('1_CRM_Sales_Person.csv'):
@@ -31,10 +33,10 @@ def main():
     open_quotes = []
     for r in rows('2_Quote_Data.csv'):
         st = (r.get('status') or r.get('stage') or '').strip().lower()
-        if 'order' in st or 'loss' in st:
+        if 'order' in st or 'loss' in st or 'cancel' in st:
             continue
         cid = (r.get('client_id') or '').strip()
-        g = cgroup.get(cid, 'U')
+        g = bgd.so_group(r, cgroup, owner_of, rep_g)
         val = float(str(r.get('value_thb') or 0).replace(',', '') or 0)
         cd_str = (r.get('created_date') or '')[:10]
         aging = 0
@@ -52,7 +54,8 @@ def main():
             g, r.get('quote_id', ''), cid, comp_name,
             sid, rep_name, "%.2f" % val,
             r.get('probability_pct', ''), r.get('expected_order_date', ''),
-            r.get('created_date', ''), aging, r.get('status', 'Pending')
+            r.get('created_date', ''), aging, r.get('status', 'Pending'),
+            (r.get('equipment_brand') or '').strip()
         ])
 
     out = os.path.join(RAW, '17_Open_Quotes.csv')
@@ -60,7 +63,7 @@ def main():
         w = csv.writer(fh)
         w.writerow(['group', 'quote_id', 'client_id', 'company_name', 'sales_id', 'rep_name',
                     'value_thb', 'probability_pct', 'expected_order_date', 'created_date',
-                    'aging_days', 'status'])
+                    'aging_days', 'status', 'product'])
         w.writerows(open_quotes)
 
     print(f"17_Open_Quotes.csv written: {len(open_quotes)} pending quotes")

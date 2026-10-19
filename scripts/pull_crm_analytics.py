@@ -50,7 +50,7 @@ def f(v, default=0.0):
 
 
 def pull_quotes(sess):
-    cols = ("id,subject,cf_1063,cf_872,cf_870,cf_874,cf_884,hdnGrandTotal,account_id,assigned_user_id")
+    cols = ("id,subject,cf_1063,cf_872,cf_870,cf_874,cf_884,hdnGrandTotal,account_id,assigned_user_id,cf_876")
     out = os.path.join(RAW, "2_Quote_Data.csv")
     n = 0
     with open(out + ".tmp", "w", encoding="utf-8", newline="") as fh:
@@ -61,7 +61,7 @@ def pull_quotes(sess):
         for r in paged(sess, cols, "Quotes"):
             status = (r.get("cf_872") or "").strip()
             w.writerow([r.get("subject", ""), (r.get("assigned_user_id") or "").strip(),
-                        (r.get("account_id") or "").strip(), "", "",
+                        (r.get("account_id") or "").strip(), "", (r.get("cf_876") or "").strip(),
                         "%.2f" % f(r.get("hdnGrandTotal")), status,
                         (r.get("cf_870") or "").strip(),
                         (r.get("cf_884") or "").strip(), "",
